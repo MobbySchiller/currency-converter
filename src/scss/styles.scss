@@ -56,16 +56,17 @@ body {
 }
 
 .currency__selector {
+    max-width: 50%;
     border: 0;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 700;
     font-family: 'Roboto', sans-serif;
 }
 
 .currency__input {
-    width: 80%;
+    width: 50%;
     border: 0;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: 400;
     font-family: 'Roboto', sans-serif;
     text-align: right;
