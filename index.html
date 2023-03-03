@@ -22,7 +22,7 @@
             </select>
             <input class="currency__input" type="number" value="0" placeholder="wartość">
           </div>
-          <p class="currency__name">Euro</p>
+          <p class="currency__name" id="select-from-code">Euro</p>
         </div>
         <div class="currency__info">
           <h2 class="currency__title">Chcę</h2>
@@ -31,7 +31,7 @@
             </select>
             <input class="currency__input" type="number" value="0">
           </div>
-          <p class="currency__name">Euro</p>
+          <p class="currency__name" id="select-to-code">Euro</p>
         </div>
       </div>
       <div class="rates">
@@ -40,9 +40,9 @@
         </p>
         <p class="rates__secondary">1 EUR = 4.532 PLN</p>
       </div>
-      <div class="swap"><span class="material-symbols-outlined">
+      <button class="swap" id="swap-button"><span class="material-symbols-outlined">
           swap_vert
-          </span></div>
+          </span></button>
     </main>
   </div>
   <script type="module" src="/src/main.ts"></script>

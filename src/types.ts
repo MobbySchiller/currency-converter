@@ -1,10 +1,18 @@
 export type HtmlElements = {
     selectFrom: HTMLElement | null,
-    selectTo: HTMLElement | null
+    selectTo: HTMLElement | null,
+    codeSelectFrom: HTMLElement | null,
+    codeSelectTo: HTMLElement | null,
+    swapButton: HTMLElement | null
+}
+
+export type Rate = {
+    currency: string,
+    code: string,
+    mid: number
 }
 
 export type Currency = {
-    currency: string,
     code: string,
     mid: number
 }
