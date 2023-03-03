@@ -1,4 +1,6 @@
 export type HtmlElements = {
+    inputFrom: HTMLElement | null,
+    inputTo: HTMLElement | null,
     selectFrom: HTMLElement | null,
     selectTo: HTMLElement | null,
     codeSelectFrom: HTMLElement | null,

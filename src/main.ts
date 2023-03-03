@@ -2,6 +2,8 @@ import { HtmlElements, Rate, Currency } from './types'
 import './scss/styles.scss'
 
 const htmlElements: HtmlElements = {
+    inputFrom: document.getElementById('input-from'),
+    inputTo: document.getElementById('input-to'),
     selectFrom: document.getElementById('select-from'),
     selectTo: document.getElementById('select-to'),
     codeSelectFrom: document.getElementById('select-from-code'),
@@ -15,6 +17,11 @@ let currencyFrom: Currency;
 let currencyTo: Currency;
 
 window.addEventListener('load', getData)
+
+if (htmlElements.inputFrom && htmlElements.inputTo) {
+    htmlElements.inputFrom.addEventListener('input', (event) => handleInput(event, 'From'))
+    htmlElements.inputTo.addEventListener('input', (event) => handleInput(event, 'To'))
+}
 
 if (htmlElements.selectFrom && htmlElements.selectTo) {
     htmlElements.selectFrom.addEventListener('change', (event) => changeCurrency(event, 'From'))
@@ -43,7 +50,7 @@ async function getData(): Promise<void> {
     }
 }
 
-function addPLN(records: Rate[]) {
+function addPLN(records: Rate[]): Rate[] {
     const db = records
     db.push({
         currency: 'polski złoty',
@@ -54,7 +61,7 @@ function addPLN(records: Rate[]) {
     return db
 }
 
-function compare(a: any, b: any) {
+function compare(a: any, b: any): number {
     if (a.currency < b.currency) {
         return -1;
     }
@@ -82,6 +89,21 @@ function createOption(values: Rate): HTMLOptionElement {
     option.setAttribute('data-mid', String(mid))
 
     return option
+}
+
+function handleInput(event: Event, type: string): void {
+    const userValue = (event.target as HTMLInputElement).value
+    const fromRate = currencyFrom.mid
+    const toRate = currencyTo.mid
+
+    const primaryPrice = fromRate / toRate
+    const secondaryPrice = toRate / fromRate
+
+    if (type === 'From' && htmlElements.inputTo instanceof HTMLInputElement) {
+        htmlElements.inputTo.value = (Number(userValue) * primaryPrice).toFixed(2)
+    } else if (type === 'To' && htmlElements.inputFrom instanceof HTMLInputElement) {
+        htmlElements.inputFrom.value = (Number(userValue) * secondaryPrice).toFixed(2)
+    }
 }
 
 function changeCurrency(event: Event, type: string): void {
@@ -120,20 +142,6 @@ function displayCurrencies(): void {
     updateRates()
 }
 
-function updateRates() {
-    const fromRate = currencyFrom.mid
-    const fromCode = currencyFrom.code
-    const toRate = currencyTo.mid
-    const toCode = currencyTo.code
-
-    const primaryPrice = fromRate / toRate
-    const secondaryPrice = toRate / fromRate
-    if (htmlElements.primaryRate && htmlElements.secondaryRate) {
-        htmlElements.primaryRate.textContent = `1 ${fromCode} = ${primaryPrice.toFixed(4)} ${toCode}`
-        htmlElements.secondaryRate.textContent = `1 ${toCode} = ${secondaryPrice.toFixed(4)} ${fromCode}`
-    }
-}
-
 function swapCurrencies(): void {
     const currentCurrencyFrom = currencyFrom
     const currentCurrencyTo = currencyTo
@@ -149,6 +157,20 @@ function swapCurrencies(): void {
     currencyFrom = currentCurrencyTo
     currencyTo = currentCurrencyFrom
     updateRates()
+}
+
+function updateRates(): void {
+    const fromRate = currencyFrom.mid
+    const fromCode = currencyFrom.code
+    const toRate = currencyTo.mid
+    const toCode = currencyTo.code
+
+    const primaryPrice = fromRate / toRate
+    const secondaryPrice = toRate / fromRate
+    if (htmlElements.primaryRate && htmlElements.secondaryRate) {
+        htmlElements.primaryRate.textContent = `1 ${fromCode} = ${primaryPrice.toFixed(4)} ${toCode}`
+        htmlElements.secondaryRate.textContent = `1 ${toCode} = ${secondaryPrice.toFixed(4)} ${fromCode}`
+    }
 }
 
 
