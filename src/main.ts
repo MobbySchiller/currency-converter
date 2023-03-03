@@ -122,7 +122,6 @@ function changeCurrency(event: Event, type: string): void {
             mid
         }
     }
-
     updateRates()
 }
 
@@ -140,6 +139,12 @@ function displayCurrencies(): void {
 }
 
 function swapCurrencies(): void {
+    swapNames()
+    swapValues()
+    updateRates()
+}
+
+function swapNames(): void {
     const currentCurrencyFrom = currencyFrom
     const currentCurrencyTo = currencyTo
     if (htmlElements.selectFrom instanceof HTMLSelectElement &&
@@ -153,13 +158,21 @@ function swapCurrencies(): void {
     }
     currencyFrom = currentCurrencyTo
     currencyTo = currentCurrencyFrom
-    updateRates()
+}
+
+function swapValues(): void {
+    if (htmlElements.inputFrom instanceof HTMLInputElement &&
+        htmlElements.inputTo instanceof HTMLInputElement) {
+        const currentInputFromValue = htmlElements.inputFrom.value
+        const currentInputToValue = htmlElements.inputTo.value
+        htmlElements.inputFrom.value = currentInputToValue
+        htmlElements.inputTo.value = currentInputFromValue
+    }
 }
 
 function updateRates(): void {
     const fromCode = currencyFrom.code
     const toCode = currencyTo.code
-
     const prices = calculatePrices(currencyFrom.mid, currencyTo.mid)
 
     if (htmlElements.primaryRate && htmlElements.secondaryRate) {
