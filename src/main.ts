@@ -1,4 +1,4 @@
-import { HtmlElements, Rate, Currency } from './types'
+import { HtmlElements, Rate, Currency, Prices } from './types'
 import './scss/styles.scss'
 
 const htmlElements: HtmlElements = {
@@ -93,16 +93,13 @@ function createOption(values: Rate): HTMLOptionElement {
 
 function handleInput(event: Event, type: string): void {
     const userValue = (event.target as HTMLInputElement).value
-    const fromRate = currencyFrom.mid
-    const toRate = currencyTo.mid
 
-    const primaryPrice = fromRate / toRate
-    const secondaryPrice = toRate / fromRate
+    const prices = calculatePrices(currencyFrom.mid, currencyTo.mid)
 
     if (type === 'From' && htmlElements.inputTo instanceof HTMLInputElement) {
-        htmlElements.inputTo.value = (Number(userValue) * primaryPrice).toFixed(2)
+        htmlElements.inputTo.value = (Number(userValue) * prices.primary).toFixed(2)
     } else if (type === 'To' && htmlElements.inputFrom instanceof HTMLInputElement) {
-        htmlElements.inputFrom.value = (Number(userValue) * secondaryPrice).toFixed(2)
+        htmlElements.inputFrom.value = (Number(userValue) * prices.secondary).toFixed(2)
     }
 }
 
@@ -160,17 +157,23 @@ function swapCurrencies(): void {
 }
 
 function updateRates(): void {
-    const fromRate = currencyFrom.mid
     const fromCode = currencyFrom.code
-    const toRate = currencyTo.mid
     const toCode = currencyTo.code
 
-    const primaryPrice = fromRate / toRate
-    const secondaryPrice = toRate / fromRate
+    const prices = calculatePrices(currencyFrom.mid, currencyTo.mid)
+
     if (htmlElements.primaryRate && htmlElements.secondaryRate) {
-        htmlElements.primaryRate.textContent = `1 ${fromCode} = ${primaryPrice.toFixed(4)} ${toCode}`
-        htmlElements.secondaryRate.textContent = `1 ${toCode} = ${secondaryPrice.toFixed(4)} ${fromCode}`
+        htmlElements.primaryRate.textContent = `1 ${fromCode} = ${prices.primary} ${toCode}`
+        htmlElements.secondaryRate.textContent = `1 ${toCode} = ${prices.secondary} ${fromCode}`
     }
+}
+
+function calculatePrices(fromRate: number, toRate: number): Prices {
+    const prices = {
+        primary: Number((fromRate / toRate).toFixed(4)),
+        secondary: Number((toRate / fromRate).toFixed(4))
+    }
+    return prices
 }
 
 

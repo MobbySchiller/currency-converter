@@ -20,3 +20,8 @@ export type Currency = {
     code: string,
     mid: number
 }
+
+export type Prices = {
+    primary: number,
+    secondary: number
+}
