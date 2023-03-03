@@ -3,7 +3,9 @@ export type HtmlElements = {
     selectTo: HTMLElement | null,
     codeSelectFrom: HTMLElement | null,
     codeSelectTo: HTMLElement | null,
-    swapButton: HTMLElement | null
+    swapButton: HTMLElement | null,
+    primaryRate: HTMLElement | null,
+    secondaryRate: HTMLElement | null,
 }
 
 export type Rate = {

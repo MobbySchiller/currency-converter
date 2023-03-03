@@ -20,7 +20,7 @@
           <div class="currency__adjustment">
             <select class="currency__selector" id="select-from">
             </select>
-            <input class="currency__input" type="number" value="0" placeholder="wartość">
+            <input class="currency__input" id="input-from" type="number" value="0">
           </div>
           <p class="currency__name" id="select-from-code">Euro</p>
         </div>
@@ -29,16 +29,14 @@
           <div class="currency__adjustment">
             <select class="currency__selector" id="select-to">
             </select>
-            <input class="currency__input" type="number" value="0">
+            <input class="currency__input" id="input-to" type="number" value="0">
           </div>
           <p class="currency__name" id="select-to-code">Euro</p>
         </div>
       </div>
       <div class="rates">
-        <p class="rates__primary">
-          1 PLN = 0.245 EUR
-        </p>
-        <p class="rates__secondary">1 EUR = 4.532 PLN</p>
+        <p class="rates__primary" id="primary-rate"></p>
+        <p class="rates__secondary" id="secondary-rate"></p>
       </div>
       <button class="swap" id="swap-button"><span class="material-symbols-outlined">
           swap_vert

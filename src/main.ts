@@ -6,7 +6,9 @@ const htmlElements: HtmlElements = {
     selectTo: document.getElementById('select-to'),
     codeSelectFrom: document.getElementById('select-from-code'),
     codeSelectTo: document.getElementById('select-to-code'),
-    swapButton: document.getElementById('swap-button')
+    swapButton: document.getElementById('swap-button'),
+    primaryRate: document.getElementById('primary-rate'),
+    secondaryRate: document.getElementById('secondary-rate'),
 }
 
 let currencyFrom: Currency;
@@ -101,7 +103,8 @@ function changeCurrency(event: Event, type: string): void {
             mid
         }
     }
-    console.log(currencyFrom, currencyTo)
+
+    updateRates()
 }
 
 function displayCurrencies(): void {
@@ -113,6 +116,21 @@ function displayCurrencies(): void {
         htmlElements.selectTo.value = currencyTo.code
         htmlElements.codeSelectFrom.textContent = currencyFrom.code
         htmlElements.codeSelectTo.textContent = currencyTo.code
+    }
+    updateRates()
+}
+
+function updateRates() {
+    const fromRate = currencyFrom.mid
+    const fromCode = currencyFrom.code
+    const toRate = currencyTo.mid
+    const toCode = currencyTo.code
+
+    const primaryPrice = fromRate / toRate
+    const secondaryPrice = toRate / fromRate
+    if (htmlElements.primaryRate && htmlElements.secondaryRate) {
+        htmlElements.primaryRate.textContent = `1 ${fromCode} = ${primaryPrice.toFixed(4)} ${toCode}`
+        htmlElements.secondaryRate.textContent = `1 ${toCode} = ${secondaryPrice.toFixed(4)} ${fromCode}`
     }
 }
 
@@ -130,6 +148,7 @@ function swapCurrencies(): void {
     }
     currencyFrom = currentCurrencyTo
     currencyTo = currentCurrencyFrom
+    updateRates()
 }
 
 
