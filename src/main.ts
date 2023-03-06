@@ -1,6 +1,8 @@
 import { HtmlElements, Rate, Currency, Prices } from './types'
 import './scss/styles.scss'
 
+const NBP_API = 'https://api.nbp.pl/api/exchangerates/tables/a?format=json'
+
 const htmlElements: HtmlElements = {
     inputFrom: document.getElementById('input-from'),
     inputTo: document.getElementById('input-to'),
@@ -33,7 +35,7 @@ if (htmlElements.swapButton) {
 
 async function getData(): Promise<void> {
     try {
-        const resp = await fetch('https://api.nbp.pl/api/exchangerates/tables/a?format=json')
+        const resp = await fetch(NBP_API)
         const data = await resp.json()
         const records = await data[0].rates
         const database = await addPLN(records)
@@ -92,20 +94,20 @@ function createOption(values: Rate): HTMLOptionElement {
 }
 
 function handleInput(event: Event, type: string): void {
-    const userValue = (event.target as HTMLInputElement).value
+    const input = (event.target as HTMLInputElement)
+    let userValue = input.value
 
-    const prices = calculatePrices(currencyFrom.mid, currencyTo.mid)
-
-    if (type === 'From' && htmlElements.inputTo instanceof HTMLInputElement) {
-        htmlElements.inputTo.value = (Number(userValue) * prices.primary).toFixed(2)
-    } else if (type === 'To' && htmlElements.inputFrom instanceof HTMLInputElement) {
-        htmlElements.inputFrom.value = (Number(userValue) * prices.secondary).toFixed(2)
+    if (type === 'From') {
+        displayResult(userValue, 'From')
+    } else if (type === 'To') {
+        displayResult(userValue, 'To')
     }
 }
 
 function changeCurrency(event: Event, type: string): void {
-    const code = (event.target as HTMLSelectElement).value
-    const selectedOption = (event.target as HTMLSelectElement).options[(event.target as HTMLSelectElement).selectedIndex];
+    const select = (event.target as HTMLSelectElement)
+    const code = select.value
+    const selectedOption = select.options[select.selectedIndex];
     const selectedOptionMid = selectedOption.getAttribute('data-mid');
     const mid = Number(selectedOptionMid)
 
@@ -115,14 +117,43 @@ function changeCurrency(event: Event, type: string): void {
             code,
             mid
         }
+        updateResult('From')
     } else if (type === 'To' && htmlElements.codeSelectTo) {
         htmlElements.codeSelectTo.textContent = code
         currencyTo = {
             code,
             mid
         }
+        updateResult('To')
     }
     updateRates()
+}
+
+function updateResult(type: string) {
+    if (htmlElements.inputFrom instanceof HTMLInputElement && htmlElements.inputTo instanceof HTMLInputElement) {
+        if (type === 'From') {
+            const fromInputValue = htmlElements.inputFrom.value
+            displayResult(fromInputValue, 'From')
+        } else if (type === 'To') {
+            const fromInputValue = htmlElements.inputFrom.value
+            displayResult(fromInputValue, 'From')
+        }
+    }
+}
+
+function displayResult(value: string, type: string) {
+    const prices = calculatePrices(currencyFrom.mid, currencyTo.mid)
+    if (htmlElements.inputFrom instanceof HTMLInputElement && htmlElements.inputTo instanceof HTMLInputElement) {
+        if (type === 'From') {
+            value === '' ?
+                htmlElements.inputTo.value = '' :
+                htmlElements.inputTo.value = (Number(value) * prices.primary).toFixed(2)
+        } else if (type === 'To') {
+            value === '' ?
+                htmlElements.inputFrom.value = '' :
+                htmlElements.inputFrom.value = (Number(value) * prices.primary).toFixed(2)
+        }
+    }
 }
 
 function displayCurrencies(): void {
@@ -188,6 +219,3 @@ function calculatePrices(fromRate: number, toRate: number): Prices {
     }
     return prices
 }
-
-
-
