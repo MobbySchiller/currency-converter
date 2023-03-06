@@ -53,7 +53,7 @@ async function getData(): Promise<void> {
 function addPLN(records: Rate[]): Rate[] {
     const db = records
     db.push({
-        currency: 'polski złoty',
+        currency: 'złoty polski',
         code: 'PLN',
         mid: 1
     })
