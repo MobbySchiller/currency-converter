@@ -40,7 +40,7 @@ async function getData(): Promise<void> {
         if (htmlElements.selectFrom && htmlElements.selectTo) {
             await addOptions(htmlElements.selectFrom, database)
             await addOptions(htmlElements.selectTo, database)
-            currencyFrom = await database[26]
+            currencyFrom = await database[33]
             currencyTo = await database[11]
             displayCurrencies()
         }
