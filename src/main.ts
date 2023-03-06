@@ -29,6 +29,7 @@ if (htmlElements.selectFrom && htmlElements.selectTo) {
     htmlElements.selectFrom.addEventListener('change', (event) => changeCurrency(event, 'From'))
     htmlElements.selectTo.addEventListener('change', (event) => changeCurrency(event, 'To'))
 }
+
 if (htmlElements.swapButton) {
     htmlElements.swapButton.addEventListener('click', swapCurrencies)
 }
@@ -84,7 +85,7 @@ function createOption(values: Rate): HTMLOptionElement {
 
     const name: string = currency.replace(/\b[a-zA-Ząćęłńóśźż]\S*/g, function (l) {
         return l.charAt(0).toUpperCase() + l.slice(1);
-    });
+    })
 
     option.textContent = name
     option.value = code
