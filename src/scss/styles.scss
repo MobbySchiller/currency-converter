@@ -58,14 +58,16 @@ body {
 .currency__selector {
     max-width: 50%;
     border: 0;
+    border-bottom: 1px solid $lines-color;
     font-size: 24px;
     font-weight: 700;
     font-family: 'Roboto', sans-serif;
 }
 
 .currency__input {
-    width: 50%;
+    width: 45%;
     border: 0;
+    border-bottom: 1px solid $lines-color;
     font-size: 24px;
     font-weight: 400;
     font-family: 'Roboto', sans-serif;
