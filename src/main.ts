@@ -53,7 +53,7 @@ async function getData(): Promise<void> {
     }
 }
 
-function addPLN(records: Rate[]): Rate[] {
+export function addPLN(records: Rate[]): Rate[] {
     const db = records
     db.push({
         currency: 'złoty polski',
@@ -79,7 +79,7 @@ function addOptions(selector: HTMLElement, values: Rate[]): void {
     options.forEach(option => selector.appendChild(option))
 }
 
-function createOption(values: Rate): HTMLOptionElement {
+export function createOption(values: Rate): HTMLOptionElement {
     const { currency, code, mid } = values
     const option: HTMLOptionElement = document.createElement('option')
 
@@ -130,7 +130,7 @@ function changeCurrency(event: Event, type: string): void {
     updateRates()
 }
 
-function updateResult(type: string) {
+function updateResult(type: string): void {
     if (htmlElements.inputFrom instanceof HTMLInputElement && htmlElements.inputTo instanceof HTMLInputElement) {
         if (type === 'From') {
             const fromInputValue = htmlElements.inputFrom.value
@@ -142,7 +142,7 @@ function updateResult(type: string) {
     }
 }
 
-function displayResult(value: string, type: string) {
+function displayResult(value: string, type: string): void {
     const prices = calculatePrices(currencyFrom.mid, currencyTo.mid)
     if (htmlElements.inputFrom instanceof HTMLInputElement && htmlElements.inputTo instanceof HTMLInputElement) {
         if (type === 'From') {
@@ -213,7 +213,7 @@ function updateRates(): void {
     }
 }
 
-function calculatePrices(fromRate: number, toRate: number): Prices {
+export function calculatePrices(fromRate: number, toRate: number): Prices {
     const prices = {
         primary: Number((fromRate / toRate).toFixed(4)),
         secondary: Number((toRate / fromRate).toFixed(4))
