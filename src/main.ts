@@ -83,7 +83,7 @@ export function createOption(values: Rate): HTMLOptionElement {
     const { currency, code, mid } = values
     const option: HTMLOptionElement = document.createElement('option')
 
-    const name: string = currency.replace(/\b[a-zA-Ząćęłńóśźż]\S*/g, function (l) {
+    const name: string = currency.replace(/\b[a-zA-Ząćęłńóśźż]\S*/g, (l) => {
         return l.charAt(0).toUpperCase() + l.slice(1);
     })
 
