@@ -64,6 +64,8 @@ body {
     font-weight: 700;
     font-family: 'Roboto', sans-serif;
     outline: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .currency__input {
